@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:37 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/09/30 17:19:26 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/09/30 18:40:03 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/time.h>
+# include <pthread.h>
 
 /*
 ** UTILS/utils.c
@@ -30,6 +32,7 @@ void	free_all(t_philo *philo);
 
 typedef struct s_human
 {
+	int	name;
 	int	forks;
 	int	thinking;
 	int	sleeping;
