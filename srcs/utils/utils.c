@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:42 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/10/04 14:01:54 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/10/20 18:53:32 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,12 @@ int	ft_atoi(const char *str)
 	return (num * neg);
 }
 
-int	
+long	millis_time_since(struct timeval time)
+{
+	struct timeval	current;
+
+	if (gettimeofday(&current, NULL))
+		return (-1);
+	return ((current.tv_sec - time.tv_sec) * 1000
+		+ (current.tv_usec - time.tv_usec) / 1000);
+}
