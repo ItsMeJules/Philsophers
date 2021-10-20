@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:40 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/09/30 17:20:44 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/10/01 14:25:48 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,28 @@ int	init_args(t_philo *philo, int ac, char **av)
 	return (1);
 }
 
+int	philo_routine(t_philo *philo)
+{
+	int	i;
+
+	i = -1;
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_philo	*philo;
+	int	i;
 
 	philo = malloc(sizeof(t_philo));
 	if (!philo || !init_args(philo, ac, av))
 		return (0);
+	i = 0;
+	while (i < philo->nb_philo)
+	{
+		pthread_create(philo->humans[i].thread, NULL, &philo_routine, philo);
+		i++;
+	}
 	free_all(philo);
 	return (0);
 }

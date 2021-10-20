@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:42 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/09/30 16:54:42 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/10/04 14:01:54 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,3 +50,5 @@ int	ft_atoi(const char *str)
 	}
 	return (num * neg);
 }
+
+int	
