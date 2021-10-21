@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:40 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/10/20 18:56:29 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/10/21 15:29:34 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	main(int ac, char **av)
 		free(philo);
 		return (0);
 	}
+	start_philos(philo);
 	free_all(philo);
 	return (0);
 }
