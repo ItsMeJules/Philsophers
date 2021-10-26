@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:40 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/10/26 17:47:55 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/10/26 18:17:34 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	init_args(t_philo *philo, int ac, char **av)
 		}
 	}
 	philo->nb_philo = ft_atoi(av[1]);
-	philo->die_time = ft_atoi(av[2]);
-	philo->eat_time = ft_atoi(av[3]);
-	philo->sleep_time = ft_atoi(av[4]);
+	philo->die_time = ft_atoi(av[2]) * 1000;
+	philo->eat_time = ft_atoi(av[3]) * 1000;
+	philo->sleep_time = ft_atoi(av[4]) * 1000;
 	philo->must_eat_nb = 0;
 	pthread_mutex_init(&philo->print_mutex, NULL);
 	if (ac > 5)

@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 17:58:10 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/10/26 17:48:06 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/10/26 18:25:46 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	init_philos(t_philo *philo)
 	{
 		philo->humans[i].name = i + 1;
 		philo->humans[i].philo = philo;
-		pthread_mutex_init(&philo->print_mutex, NULL);
 		pthread_mutex_init(&philo->humans[i].fork_mutex, NULL);
 	}
 	return (1);
@@ -36,17 +35,17 @@ void	*philo_routine(void *arg)
 	t_human	*human;
 
 	human = (t_human *)arg;
-	printf("%d\n", human->name);
-	if (human->name % 2)
+	if (human->name % 2 == 0)
 	{
-		if (usleep(50000) == -1)
+		if (usleep(50) == -1)
 			return (NULL);
 	}
-	printf("MOR\n");
+	printf("%d\n", human->name);
 	if (!take_forks(human, human->philo->humans))
 		return (NULL);
 	if (!start_eating(human))
 		return (NULL);
+	printf("Done eating ? %d", human->name);
 	if (!drop_forks(human, human->philo->humans))
 		return (NULL);
 	// if (!start_sleeping(human))
@@ -56,7 +55,11 @@ void	*philo_routine(void *arg)
 
 int	check_at_philos(t_philo *philo)
 {
-	(void)philo;
+	int	i;
+	
+	i = -1;
+	while (++i < philo->nb_philo)
+		pthread_join(philo->humans[i].thread, NULL);
 	return (1);
 }
 
@@ -65,9 +68,11 @@ int	start_philos(t_philo *philo)
 	int	i;
 
 	i = -1;
-	gettimeofday(&philo->started, NULL);
+	if (gettimeofday(&philo->started, NULL))
+		return (-1);
 	while (++i < philo->nb_philo)
 	{
+		printf("started %d\n", philo->humans[i].name);
 		if (pthread_create(&philo->humans[i].thread, NULL, philo_routine,
 			&philo->humans[i]))
 			return (-1);

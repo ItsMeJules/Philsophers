@@ -1,6 +1,6 @@
 NAME		=	philo
 CC			=	gcc
-CFLAGS		=	-fsanitize=address -Wall -Wextra -Werror -g
+CFLAGS		=	-Wall -Wextra -Werror
 RM			=	rm -rf
 SRC_DIR 	= 	srcs
 SRC		 	=	$(notdir $(shell find $(SRC_DIR) -type f -name *.c))

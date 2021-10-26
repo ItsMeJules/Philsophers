@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:11:25 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/10/26 17:49:21 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/10/26 18:18:29 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ int	drop_forks(t_human *human, t_human *h_tab)
 		right_ph = 0;
 	if (pthread_mutex_unlock(&human->fork_mutex))
 		return (0);
-	if (pthread_mutex_lock(&h_tab[right_ph].fork_mutex))
+	print_status(human->name, "dropped a fork", human->philo);
+	if (pthread_mutex_unlock(&h_tab[right_ph].fork_mutex))
 		return (0);
+	print_status(human->name, "dropped a fork", human->philo);
 	return (1);
 }
 
@@ -63,7 +65,9 @@ int	start_eating(t_human *human)
 		return (0);
 	human->meals++;
 	print_status(human->name, "is eating", human->philo);
-	usleep(human->philo->eat_time * 1000);
+	printf("wait time %d\n", human->philo->eat_time);
+	usleep(human->philo->eat_time);
+	printf("teset\n");
 	return (1);
 }
 
