@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:11:25 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/10/26 18:18:29 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/10/27 14:26:09 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	print_status(int name, char *msg, t_philo *philo)
 		return (-1);
 	if (pthread_mutex_lock(&philo->print_mutex))
 		return (-1);
-	printf("%ld %d %s\n", time, name, msg);
+	printf("%ldms %d %s\n", time, name, msg);
 	if (pthread_mutex_unlock(&philo->print_mutex))
 		return (-1);
 	return (1);
@@ -65,9 +65,7 @@ int	start_eating(t_human *human)
 		return (0);
 	human->meals++;
 	print_status(human->name, "is eating", human->philo);
-	printf("wait time %d\n", human->philo->eat_time);
-	usleep(human->philo->eat_time);
-	printf("teset\n");
+	better_sleep(human->philo->eat_time);
 	return (1);
 }
 

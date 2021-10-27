@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:37 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/10/26 17:46:07 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/10/27 14:25:20 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_human
 int		is_number(char *str);
 int		ft_atoi(const char *str);
 long	millis_time_since(struct timeval time);
+int		better_sleep(long sleep_ms);
 
 /*
 ** UTILS/memory_utils.c

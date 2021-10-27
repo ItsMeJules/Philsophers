@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 17:58:10 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/10/26 18:25:46 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/10/27 13:02:48 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,10 @@ void	*philo_routine(void *arg)
 		if (usleep(50) == -1)
 			return (NULL);
 	}
-	printf("%d\n", human->name);
 	if (!take_forks(human, human->philo->humans))
 		return (NULL);
 	if (!start_eating(human))
 		return (NULL);
-	printf("Done eating ? %d", human->name);
 	if (!drop_forks(human, human->philo->humans))
 		return (NULL);
 	// if (!start_sleeping(human))
@@ -72,7 +70,6 @@ int	start_philos(t_philo *philo)
 		return (-1);
 	while (++i < philo->nb_philo)
 	{
-		printf("started %d\n", philo->humans[i].name);
 		if (pthread_create(&philo->humans[i].thread, NULL, philo_routine,
 			&philo->humans[i]))
 			return (-1);
