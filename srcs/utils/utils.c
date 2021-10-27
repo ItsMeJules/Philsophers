@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:42 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/10/27 14:25:52 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/10/27 17:09:09 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int	better_sleep(long sleep_ms)
 	struct timeval	current;
 
 	if (gettimeofday(&current, NULL))
-		return (-1);
+		return (1);
 	while (millis_time_since(current) < sleep_ms)
-		usleep(50);
-	return (1);
+		usleep(100);
+	return (0);
 }
