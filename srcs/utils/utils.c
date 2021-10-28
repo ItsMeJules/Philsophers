@@ -71,3 +71,10 @@ int	better_sleep(long sleep_ms)
 		usleep(100);
 	return (0);
 }
+
+void	init_ret_error(t_philo *philo, int error)
+{
+	pthread_mutex_lock(&philo->error_mutex);
+	philo->error = error;
+	pthread_mutex_unlock(&philo->error_mutex);
+}

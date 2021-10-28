@@ -35,6 +35,8 @@ int	init_args(t_philo *philo, int ac, char **av)
 	pthread_mutex_init(&philo->error_mutex, NULL);
 	if (ac > 5)
 		philo->must_eat_nb = ft_atoi(av[5]);
+	else
+		philo->must_eat_nb = -1;
 	return (init_philos(philo));
 }
 

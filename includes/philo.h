@@ -27,6 +27,7 @@ typedef struct s_philo
 	int				eat_time;
 	int				sleep_time;
 	int				must_eat_nb;
+	int				error;
 	struct timeval	started;
 	struct s_human	*humans;
 	pthread_t		thread;
@@ -52,7 +53,7 @@ int		is_number(char *str);
 int		ft_atoi(const char *str);
 long	millis_time_since(struct timeval time);
 int		better_sleep(long sleep_ms);
-void	*init_ret_error(t_philo *philo, int error);
+void	init_ret_error(t_philo *philo, int error);
 
 /*
 ** UTILS/memory_utils.c

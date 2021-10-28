@@ -61,10 +61,11 @@ int	start_eating(t_human *human, t_philo *philo)
 {
 	if (gettimeofday(&human->last_meal, NULL))
 		return (1);
-	human->meals++;
 	print_status(human->name, "is eating", philo);
 	if (better_sleep(philo->eat_time))
 		return (1);
+	if (human->meals != -1)
+		human->meals--;
 	return (0);
 }
 

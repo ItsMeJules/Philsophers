@@ -27,6 +27,9 @@ int	init_philos(t_philo *philo)
 		philo->humans[i].philo = philo;
 		if (gettimeofday(&philo->humans[i].last_meal, NULL))
 			return (0);
+		philo->humans[i].meals = -1;
+		if (philo->must_eat_nb != -1)
+			philo->humans[i].meals = philo->must_eat_nb;
 		pthread_mutex_init(&philo->humans[i].fork_mutex, NULL);
 	}
 	return (1);
@@ -36,9 +39,11 @@ void	*philo_routine(void *arg)
 {
 	t_human	*human;
 	t_philo	*philo;
+	int		error;
 
 	human = (t_human *)arg;
 	philo = human->philo;
+	error = 0;
 	if (human->name % 2 == 0)
 	{
 		if (usleep(100) == -1)
@@ -46,16 +51,19 @@ void	*philo_routine(void *arg)
 	}
 	while (!human->stop)
 	{
-		if (!take_forks(human, philo->humans))
-			break ;
-		if (!start_eating(human, philo))
-			break ;
-		if (!drop_forks(human, philo->humans))
-			break ;
-		if (!start_sleeping(human, philo))
+		if (!error && !take_forks(human, philo->humans))
+			error = 1;
+		if (!error && !start_eating(human, philo))
+			error = 1;
+		if (!error && !drop_forks(human, philo->humans))
+			error = 1;
+		if (!error && !start_sleeping(human, philo))
+			error = 1;
+		if (error == 1)
 			break ;
 		print_status(human->name, "is thinking", philo);
 	}
+	init_ret_error(philo, error);
 	return (NULL);
 }
 
@@ -68,33 +76,34 @@ void	stop_threads(t_philo *philo)
 		philo->humans[i].stop = 1;
 }
 
+int		watch_philosophers(t_philo *philo)
+{
+	t_human	human;
+	int		i;
+
+	i = -1;
+	while (++i < philo->nb_philo)
+	{
+		human = philo->humans[i];
+		if (human.meals == 0)
+			human.stop = 1;
+		
+	}
+}
+
 void	*philo_watcher(void *arg)
 {
 	t_philo	*philo;
-	t_human human;
 	int		i;
+	int		error;
 
 	philo = (t_philo *)arg;
-	while (42)
+	error = 0;
+	while (1)
 	{
-		i = -1;
-		while (++i < philo->nb_philo)
-		{
-			human = philo->humans[i];
-			pthread_mutex_lock(&philo->error_mutex);
-			if (millis_time_since(human.last_meal) > philo->die_time)
-			{
-				print_status(human.name, "died", philo);
-				human.stop = 1;
-			}
-			pthread_mutex_unlock(&philo->error_mutex);
-			if (human.stop)
-				break ;
-		}
-		if (human.stop)
-			break ;
+		error = watch_philosophers(philo);
+		if (error)
 	}
-	stop_threads(philo);
 	return (NULL);
 }
 
