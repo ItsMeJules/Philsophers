@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 17:58:10 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/11/03 18:11:37 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/11/03 21:00:18 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,17 @@ void	*philo_routine(void *arg)
 	}
 	while (1)
 	{
-		pthread_mutex_lock(&human->stop_mutex);
-		if (human->stop)
+		if (should_stop(human))
 			break ;
-		pthread_mutex_unlock(&human->stop_mutex);
 		take_forks(human, philo->humans);
 		start_eating(human, philo);
 		drop_forks(human, philo->humans);
-		start_sleeping(human, philo);
-		print_status(human->name, "is thinking", philo);
+		if (!should_stop(human))
+		{
+			start_sleeping(human, philo);
+			print_status(human->name, "is thinking", philo);	
+		}
 	}
-	pthread_mutex_unlock(&human->stop_mutex);
 	return (NULL);
 }
 
@@ -141,16 +141,27 @@ int	start_philos(t_philo *philo)
 
 	i = -1;
 	gettimeofday(&philo->started, NULL);
-	while (++i < philo->nb_philo)
+	if (philo->nb_philo != 1)
 	{
-		if (pthread_create(&philo->humans[i].thread, NULL, philo_routine,
-			&philo->humans[i]))
-			return (-1);
+		while (++i < philo->nb_philo)
+		{
+			if (pthread_create(&philo->humans[i].thread, NULL, philo_routine,
+				&philo->humans[i]))
+				return (-1);
+		}
+	}
+	else
+	{
+		print_status(1, "has taken a fork", philo);
+		better_sleep(philo->die_time);
 	}
 	if (pthread_create(&philo->thread, NULL, philo_watcher, philo))
 		return (-1);
-	while (i-- > 0)
-		pthread_join(philo->humans[i].thread, NULL);
+	if (philo->nb_philo != 1)
+	{
+		while (i-- > 0)
+			pthread_join(philo->humans[i].thread, NULL);
+	}
 	pthread_join(philo->thread, NULL);
 	return (1);
 }

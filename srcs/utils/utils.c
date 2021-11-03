@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:42 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/11/03 16:27:04 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/11/03 21:00:09 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,14 @@ int	better_sleep(long sleep_ms)
 	while (millis_time_since(current) < sleep_ms)
 		usleep(100);
 	return (0);
+}
+
+int	should_stop(t_human *human)
+{
+	int	stop;
+	
+	pthread_mutex_lock(&human->stop_mutex);
+	stop = human->stop;
+	pthread_mutex_unlock(&human->stop_mutex);
+	return (stop);
 }
