@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:40 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/10/27 15:47:12 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/11/03 17:07:19 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	init_args(t_philo *philo, int ac, char **av)
 	philo->must_eat_nb = 0;
 	philo->error = 0;
 	pthread_mutex_init(&philo->print_mutex, NULL);
-	pthread_mutex_init(&philo->error_mutex, NULL);
 	if (ac > 5)
 		philo->must_eat_nb = ft_atoi(av[5]);
 	else

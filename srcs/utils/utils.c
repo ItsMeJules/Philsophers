@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:42 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/10/27 17:09:09 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/11/03 16:27:04 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ long	millis_time_since(struct timeval time)
 {
 	struct timeval	current;
 
-	if (gettimeofday(&current, NULL))
-		return (-1);
+	gettimeofday(&current, NULL);
 	return ((current.tv_sec - time.tv_sec) * 1000
 		+ (current.tv_usec - time.tv_usec) / 1000);
 }
@@ -65,16 +64,8 @@ int	better_sleep(long sleep_ms)
 {
 	struct timeval	current;
 
-	if (gettimeofday(&current, NULL))
-		return (1);
+	gettimeofday(&current, NULL);
 	while (millis_time_since(current) < sleep_ms)
 		usleep(100);
 	return (0);
-}
-
-void	init_ret_error(t_philo *philo, int error)
-{
-	pthread_mutex_lock(&philo->error_mutex);
-	philo->error = error;
-	pthread_mutex_unlock(&philo->error_mutex);
 }

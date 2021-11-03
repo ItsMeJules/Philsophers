@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:55:25 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/10/26 17:18:55 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/11/03 18:15:12 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,12 @@ void	free_all(t_philo *philo)
 	i = 0;
 	while (i < philo->nb_philo)
 	{
-		//free(&philo->humans[i]);
+		pthread_mutex_destroy(&philo->humans[i].fork_mutex);
+		pthread_mutex_destroy(&philo->humans[i].meal_mutex);
+		pthread_mutex_destroy(&philo->humans[i].stop_mutex);
 		i++;
 	}
+	pthread_mutex_destroy(&philo->print_mutex);
+	free(philo->humans);
 	free(philo);
 }

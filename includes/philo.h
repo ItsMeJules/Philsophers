@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:37 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/10/27 17:16:28 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/11/03 17:07:16 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_philo
 	struct s_human	*humans;
 	pthread_t		thread;
 	pthread_mutex_t	print_mutex;
-	pthread_mutex_t	error_mutex;
 }	t_philo;
 
 typedef struct s_human
@@ -40,9 +39,12 @@ typedef struct s_human
 	int				name;
 	int				meals;
 	int				stop;
+	int				right_ph;
 	struct timeval	last_meal;
 	struct s_philo	*philo;
 	pthread_mutex_t	fork_mutex;
+	pthread_mutex_t	meal_mutex;
+	pthread_mutex_t	stop_mutex;
 	pthread_t		thread;
 }	t_human;
 
@@ -71,10 +73,10 @@ int		start_philos(t_philo *philo);
 /*
 ** philo_status.c
 */
-int	print_status(int name, char *msg, t_philo *philo);
-int	take_forks(t_human *human, t_human *h_tab);
-int	drop_forks(t_human *human, t_human *h_tab);
-int	start_eating(t_human *human, t_philo *philo);
-int	start_sleeping(t_human *human, t_philo *philo);
+void	print_status(int name, char *msg, t_philo *philo);
+void	take_forks(t_human *human, t_human *h_tab);
+void	drop_forks(t_human *human, t_human *h_tab);
+void	start_eating(t_human *human, t_philo *philo);
+void	start_sleeping(t_human *human, t_philo *philo);
 
 #endif
