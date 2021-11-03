@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 17:58:10 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/11/03 21:00:18 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/11/03 21:22:32 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	*philo_routine(void *arg)
 	{
 		if (should_stop(human))
 			break ;
+		printf("human=%d stop=%d\n", human->name, human->stop);
 		take_forks(human, philo->humans);
 		start_eating(human, philo);
 		drop_forks(human, philo->humans);
@@ -100,6 +101,10 @@ int		watch_philosophers(t_philo *philo)
 			{
 				pthread_mutex_unlock(&human.meal_mutex);
 				print_status(human.name, "died", philo);
+				pthread_mutex_lock(&human.stop_mutex);
+				philo->humans[i].stop = 1;
+				printf("stop=%d\n", philo->humans[i].stop);
+				pthread_mutex_unlock(&human.stop_mutex);
 				return (1);
 			}
 			pthread_mutex_unlock(&human.meal_mutex);
@@ -125,10 +130,10 @@ void	*philo_watcher(void *arg)
 	error = 0;
 	while (1)
 	{
+		usleep(100);
 		error = watch_philosophers(philo);
 		if (error)
 			break ;
-		usleep(100);
 	}
 	if (error != 2)
 		stop_threads(philo);

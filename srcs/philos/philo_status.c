@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 14:43:47 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/11/03 21:00:19 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/11/03 21:20:23 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ void	print_status(int name, char *msg, t_philo *philo)
 
 void	take_forks(t_human *human, t_human *h_tab)
 {
+	printf("%d stop=%d\n", human->name, human->stop);
+	if (should_stop(human))
+		return ;
 	pthread_mutex_lock(&human->fork_mutex);
 	print_status(human->name, "has taken a fork", human->philo);
 	pthread_mutex_lock(&h_tab[human->right_ph].fork_mutex);
@@ -38,6 +41,8 @@ void	drop_forks(t_human *human, t_human *h_tab)
 
 void	start_eating(t_human *human, t_philo *philo)
 {
+	if (should_stop(human))
+		return ;
 	pthread_mutex_lock(&human->meal_mutex);
 	gettimeofday(&human->last_meal, NULL);
 	pthread_mutex_unlock(&human->meal_mutex);
