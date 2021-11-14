@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jules <jules@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:42 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/11/03 21:00:09 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/11/14 20:15:04 by jules            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,31 @@ long	millis_time_since(struct timeval time)
 		+ (current.tv_usec - time.tv_usec) / 1000);
 }
 
-int	better_sleep(long sleep_ms)
+int	better_sleep(long sleep_ms, t_philo *philo)
 {
 	struct timeval	current;
 
 	gettimeofday(&current, NULL);
 	while (millis_time_since(current) < sleep_ms)
+	{
+		if (should_stop(philo->data))
+			return (1);
 		usleep(100);
+	}
 	return (0);
 }
 
-int	should_stop(t_human *human)
+int	should_stop(t_data *data)
 {
 	int	stop;
 	
-	pthread_mutex_lock(&human->stop_mutex);
-	stop = human->stop;
-	pthread_mutex_unlock(&human->stop_mutex);
+	pthread_mutex_lock(&data->finished_mutex);
+	pthread_mutex_lock(&data->stop_mutex);
+	if (!data->stop && data->finished == data->nb_philo)
+		stop = 1;
+	else
+		stop = data->stop;
+	pthread_mutex_unlock(&data->finished_mutex);
+	pthread_mutex_unlock(&data->stop_mutex);
 	return (stop);
 }

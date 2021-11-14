@@ -1,6 +1,7 @@
 NAME		=	philo
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werrora -fsanitize=thread
+OS				= $(shell uname)
 RM			=	rm -rf
 SRC_DIR 	= 	srcs
 SRC		 	=	$(notdir $(shell find $(SRC_DIR) -type f -name *.c))
@@ -18,6 +19,10 @@ _RESET		=	\033[0m
 _INFO		=	[$(_YELLOW)INFO$(_RESET)]
 _SUCCESS	=	[$(_GREEN)SUCCESS$(_RESET)]
 _CLEAR		=	\033[2K\c
+
+ifeq ($(OS), Linux)
+	CFLAGS		=	-pthread -fsanitize=address -g -Wall -Wextra -Werror
+endif
 
 all				:	init $(NAME)
 					@ echo "$(_SUCCESS) Compilation done"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jules <jules@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:37 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/11/03 21:00:17 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/11/14 20:07:17 by jules            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,44 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-typedef struct s_philo
+typedef struct s_data
 {
 	int				nb_philo;
-	int				die_time;
-	int				eat_time;
-	int				sleep_time;
-	int				must_eat_nb;
-	int				error;
+	int				ttd;
+	int				tte;
+	int				tts;
+	int				meals;
+	int				stop;
+	int				finished;
 	struct timeval	started;
-	struct s_human	*humans;
+	struct s_philo	*philos;
 	pthread_t		thread;
+	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	print_mutex;
-}	t_philo;
+	pthread_mutex_t	finished_mutex;
+}	t_data;
 
-typedef struct s_human
+typedef struct s_philo
 {
 	int				name;
 	int				meals;
-	int				stop;
-	int				right_ph;
+	int				next_fork;
 	struct timeval	last_meal;
-	struct s_philo	*philo;
+	struct s_data	*data;
+	pthread_t		thread;
 	pthread_mutex_t	fork_mutex;
 	pthread_mutex_t	meal_mutex;
-	pthread_mutex_t	stop_mutex;
-	pthread_t		thread;
-}	t_human;
+}	t_philo;
+
+/*
+** SRCS/main.c
+*/
+void	print_status(int name, char *msg, t_data *data);
+
+/*
+** SRCS/simulation.c
+*/
+void	start_simulation(t_data *data);
 
 /*
 ** UTILS/utils.c
@@ -54,29 +65,13 @@ typedef struct s_human
 int		is_number(char *str);
 int		ft_atoi(const char *str);
 long	millis_time_since(struct timeval time);
-int		better_sleep(long sleep_ms);
-int		should_stop(t_human *human);
+int		better_sleep(long sleep_ms, t_philo *philo);
+int		should_stop(t_data *data);
 
 /*
 ** UTILS/memory_utils.c
 */
 void	free_all(t_philo *philo);
 
-/*
-** philo_init.c
-*/
-int		init_philos(t_philo *philo);
-void	*philo_routine(void *arg);
-void	*philo_watcher(void *arg);
-int		start_philos(t_philo *philo);
-
-/*
-** philo_status.c
-*/
-void	print_status(int name, char *msg, t_philo *philo);
-void	take_forks(t_human *human, t_human *h_tab);
-void	drop_forks(t_human *human, t_human *h_tab);
-void	start_eating(t_human *human, t_philo *philo);
-void	start_sleeping(t_human *human, t_philo *philo);
 
 #endif
