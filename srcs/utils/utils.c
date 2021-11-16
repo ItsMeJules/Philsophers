@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jules <jules@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:42 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/11/14 20:15:04 by jules            ###   ########.fr       */
+/*   Updated: 2021/11/16 15:43:37 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	better_sleep(long sleep_ms, t_philo *philo)
 int	should_stop(t_data *data)
 {
 	int	stop;
-	
+
 	pthread_mutex_lock(&data->finished_mutex);
 	pthread_mutex_lock(&data->stop_mutex);
 	if (!data->stop && data->finished == data->nb_philo)

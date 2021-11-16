@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jules <jules@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:40 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/11/14 20:07:47 by jules            ###   ########.fr       */
+/*   Updated: 2021/11/16 15:53:31 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,16 @@ void	print_status(int name, char *msg, t_data *data)
 {
 	long	time;
 
+	pthread_mutex_lock(&data->stop_mutex);
 	if (data->stop)
+	{
+		pthread_mutex_unlock(&data->stop_mutex);
 		return ;
+	}
+	pthread_mutex_unlock(&data->stop_mutex);
 	time = millis_time_since(data->started);
 	pthread_mutex_lock(&data->print_mutex);
-	printf("%ldms %d %s\n", time, name, msg); //penser a retirer le ms
+	printf("%ld %d %s\n", time, name, msg);
 	pthread_mutex_unlock(&data->print_mutex);
 }
 

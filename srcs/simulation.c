@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jules <jules@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 17:35:07 by jules             #+#    #+#             */
-/*   Updated: 2021/11/14 20:23:41 by jules            ###   ########.fr       */
+/*   Updated: 2021/11/16 15:57:02 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int		philo_live(t_philo *philo, t_data *data)
+int	philo_live(t_philo *philo, t_data *data)
 {
 	pthread_mutex_lock(&philo->fork_mutex);
 	print_status(philo->name, "has taken a fork", data);
@@ -59,9 +59,9 @@ void	*philo_routine(void *arg)
 		if (philo->meals != -1)
 			philo->meals--;
 	}
-	pthread_mutex_lock(&philo->meal_mutex);
+	pthread_mutex_lock(&philo->data->finished_mutex);
 	philo->data->finished++;
-	pthread_mutex_unlock(&philo->meal_mutex);
+	pthread_mutex_unlock(&philo->data->finished_mutex);
 	return (NULL);
 }
 
@@ -80,17 +80,14 @@ void	*philo_watcher(void *arg)
 			philo = &data->philos[i];
 			if (should_stop(data))
 				return (NULL);
-			pthread_mutex_lock(&philo->meal_mutex);
 			if (millis_time_since(philo->last_meal) > data->ttd)
 			{
 				print_status(philo->name, "died", data);
 				pthread_mutex_lock(&data->stop_mutex);
 				data->stop = 1;
 				pthread_mutex_unlock(&data->stop_mutex);
-				pthread_mutex_unlock(&philo->meal_mutex);
 				return (NULL);
 			}
-			pthread_mutex_unlock(&philo->meal_mutex);
 		}
 		usleep(100);
 	}
@@ -101,7 +98,8 @@ void	start_threads(t_philo *philos, int nb_philo, int index)
 {
 	while (index < nb_philo)
 	{
-		pthread_create(&philos[index].thread, NULL, philo_routine, &philos[index]);
+		pthread_create(&philos[index].thread, NULL, philo_routine,
+			&philos[index]);
 		index += 2;
 	}
 }

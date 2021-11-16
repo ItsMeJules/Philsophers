@@ -1,6 +1,6 @@
 NAME		=	philo
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werrora -fsanitize=thread
+CFLAGS		=	-Wall -Wextra -Werror
 OS				= $(shell uname)
 RM			=	rm -rf
 SRC_DIR 	= 	srcs
