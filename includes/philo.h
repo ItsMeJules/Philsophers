@@ -6,7 +6,7 @@
 /*   By: jpeyron <jpeyron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 16:54:37 by jpeyron           #+#    #+#             */
-/*   Updated: 2021/11/16 15:42:27 by jpeyron          ###   ########.fr       */
+/*   Updated: 2021/11/16 16:06:19 by jpeyron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,5 @@ int		ft_atoi(const char *str);
 long	millis_time_since(struct timeval time);
 int		better_sleep(long sleep_ms, t_philo *philo);
 int		should_stop(t_data *data);
-
-/*
-** UTILS/utils2.c
-*/
-int		philo_died(t_data *data, t_philo *philo);
-
-/*
-** UTILS/memory_utils.c
-*/
-void	free_all(t_philo *philo);
 
 #endif
